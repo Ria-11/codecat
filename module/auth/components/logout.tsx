@@ -1,42 +1,26 @@
-"use client"
+"use client";
 
-import {signOut} from "@/lib/auth-client";
+import { signOut } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
-import {useRouter} from 'next/navigation'
+const Logout = () => {
+  const router = useRouter();
 
+  const handleLogout = async () => {
+    try {
+      await signOut();              // clear session
+    } catch (err) {
+      console.error("Logout error:", err);
+    } finally {
+      router.replace("/login");     // redirect to login page
+    }
+  };
 
-import React from 'react'
+  return (
+    <button onClick={handleLogout} className="w-full text-left">
+      Logout
+    </button>
+  );
+};
 
-const Logout = ({
-    children,
-    className
-
-    ,
-}:{
-    children?: React.ReactNode,
-    className?: string
-
-
-}) => {
-    const router = useRouter()
-
-    return (
-
-        <span className={className!} onClick={()=>signOut({
-
-            fetchOptions:{
-
-                onSuccess:()=>{
-                    router.push("/login")
-                }
-        }
-    
-        })}>
-
-
-        {children}
-        
-        </span>
-    )
-}
-export default Logout
+export default Logout;

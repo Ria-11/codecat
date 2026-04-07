@@ -6,6 +6,8 @@ import {
 
 import {redirect} from "next/navigation";
 
+console.log("DB URL:", process.env.DATABASE_URL)
+
 export const requireAuth = async () => {
     const session = await auth.api.getSession({
         headers: await headers()
